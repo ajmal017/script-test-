@@ -5,6 +5,7 @@ strategia da modificare
 from backtesting import Strategy
 from backtesting.test import SMA
 import pandas as pd
+import backtrader
 
 
 
@@ -42,7 +43,7 @@ class MACD_strat(Strategy):
 
     # data = data.drop(remove_cols, axis=1)
 
-    # DEFINING MOVING AVERAGE
+class MyStrategy(bt.strategy):
 
     def init(self):
         # Precompute moving averages
@@ -71,6 +72,8 @@ class MACD_strat(Strategy):
         print(self.dataframe)
         print('**********')
 
+
+
     def next(self):
         if self.nextCount < 100:
             self.nextCount = self.nextCount + 1
@@ -81,7 +84,6 @@ class MACD_strat(Strategy):
             self.dataframe['macd_val'][self.nextCount] < 0 and self.dataframe['macd_signal_line'][self.nextCount] < 0:
 
             Signal=self.dataframe['Close'][self.nextCount]
-
 
             self.buy(price = Signal,sl = Signal-0.0010,tp = Signal+0.0030)
             print('buy')

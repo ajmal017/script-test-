@@ -9,18 +9,17 @@ import duka.app.app as import_ticks_method
 from duka.core.utils import TimeFrame
 import datetime
 import pandas as pd
-# elements to import data from duka
-import matplotlib.pyplot as plt
+
 def ema(data, period=0, column='Close'):
     data['ema' + str(period)] = data[column].ewm(ignore_na=False, min_periods=period, com=period, adjust=True).mean()
 
     return data
-
-# start_date =  datetime.date (2020,2,1)
-# end_date =  datetime.date (2020,3,1)
-# Assets = ["AUDUSD"]
-# import_ticks_method (Assets, start_date, end_date, 1, TimeFrame.H1, ".", True)
-tick_data = pd.read_csv("AUDUSD-2020_02_01-2020_03_01.csv")
+# elements to import data from duka
+#start_date =  datetime.date (2020,1,1)
+#end_date =  datetime.date (2020,5,30)
+#Assets = ["AUDUSD"]
+#import_ticks_method (Assets, start_date, end_date, 1, TimeFrame.H1, ".", True)
+tick_data = pd.read_csv("AUDUSD-2020_01_01-2020_05_30.csv")
 tick_data[["time"]] = tick_data[["time"]].apply(pd.to_datetime)
 tick_data.set_index("time", inplace=True)
 print(tick_data)
@@ -46,6 +45,7 @@ print(tick_data_new)
 bt = Backtest(tick_data_new, MACD_strat, cash=10000, commission=.002)
 bt.run()
 bt.plot()
+
 print(bt.run())
 
 # funzione per ottimizzare
